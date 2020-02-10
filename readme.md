@@ -11,7 +11,7 @@
 数据集{9, 7,  11 , 4,  12,  15}，其四位的二进制表示为，从低比特位到高比特位的比较过程如图所示
 ![radix](./picture/radix.jpg)
 
-​                                                                          <center>图1 基数排序示意图</center>
+​     图1 基数排序示意图
 
 ## 2. 将基数排序应用于浮点数
 
@@ -19,7 +19,7 @@
 
 ![single_float](./picture/single_float.png)
 
-​                                                                     <center>  图2 IEEE 754标准浮点数存储形式</center>
+​                                                                      图2 IEEE 754标准浮点数存储形式
 
 ​       IEEE float有一个特性，除了最高的符号位，从0位到30位对数值的权重依次增加，这些位与32位无符号整数的排序方法相同，针对符号位可做如下的预处理：对于正浮点数，将最高的符号位取反(由0转化为1)。对于负浮点数，全部位取反，这样便可应用整数的基数排序方法(对浮点数应用位运算前需要将其转化为整形), 排序完成后再将其转化。
 
@@ -37,7 +37,7 @@ unsigned int *data_temp = (unsigned int *)(&src_data[i]);
 
 ![parallel_radix](./picture/parallel_radix.jpg)
 
-​                                                                  <center>图3 多线程并行基数排序方法</center>
+​                                                                  图3 多线程并行基数排序方法
 
 ## 4.并行合并列表
 
@@ -47,7 +47,7 @@ unsigned int *data_temp = (unsigned int *)(&src_data[i]);
 
 <img src="./picture/parallel.jpg" alt="parallel" style="zoom: 67%;" />
 
-​                                                                <center>图4 并行规约寻找最小值(黄色为活跃线程)</center>
+​                                                                图4 并行规约寻找最小值(黄色为活跃线程)
 
 ## 5. 代码说明
 
