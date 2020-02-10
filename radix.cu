@@ -6,8 +6,8 @@
 #define MAX_NUM_LISTS 256
 
 using namespace std;
-int num_data = 10000;
-int num_lists = 256;
+int num_data = 1000; // the number of the data
+int num_lists = 128; // the number of parallel threads
 
 __device__ void radix_sort(float* const data_0, float* const data_1, \
     int num_lists, int num_data, int tid); 
@@ -25,27 +25,10 @@ __global__ void GPU_radix_sort(float* const src_data, float* const dest_data, \
     preprocess_float(src_data, num_lists, num_data, tid); 
     __syncthreads();
    // no shared memory
-
     radix_sort(src_data, dest_data, num_lists, num_data, tid);
     __syncthreads();
-    if(tid == 0)
-    {
-        for(int i=0;i<num_data;i++)
-        {
-        printf("%f ", src_data[i]);
-        }
-        printf("\n\n\n");
-    }
     merge_list(src_data, dest_data, num_lists, num_data, tid);    
     __syncthreads();
-    if(tid == 0)
-    {
-        for(int i=0;i<num_data;i++)
-        {
-        printf("%f ", dest_data[i]);
-        }
-        printf("\n\n\n");
-    }
     Aeprocess_float(dest_data, num_lists, num_data, tid);
     __syncthreads();
 }
@@ -93,10 +76,6 @@ __device__ void radix_sort(float* const data_0, float* const data_1, \
         for(int j=0;j<count_1;j++)
         {
             data_0[tid + count_0*num_lists + j*num_lists] = data_1[tid + j*num_lists]; 
-        }
-        if(tid == 0)
-        {
-            printf("%f\n", data_0[tid]);
         }
     }
 }
@@ -151,7 +130,6 @@ __device__ void merge_list(const float* src_data, float* const dest_list, \
         {
             list_index[record_tid[0]]++;
             dest_list[i] = record_val[0];
-            printf("%f\n", dest_list[i]);
         }
         __syncthreads();
     }
